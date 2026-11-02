@@ -1,1 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estegno — esconda mensagens dentro de imagens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<header class="hero" id="hero">
+  <span class="lacre" aria-hidden="true">S</span>
+  <h1>Segredo</h1>
+  <p class="visivel">Esconda mensagens dentro de imagens. Passe o cursor pelo escuro e veja o que está escrito.</p>
+  <p class="oculto" id="oculto">Nenhum sistema é seguro.</p>
+</header>
+
+<nav class="abas" role="tablist" aria-label="Funções">
+  <button class="aba" role="tab" id="t-esconder" aria-controls="p-esconder" aria-selected="true">Esconder</button>
+  <button class="aba" role="tab" id="t-revelar" aria-controls="p-revelar" aria-selected="false">Revelar</button>
+  <button class="aba" role="tab" id="t-lupa" aria-controls="p-lupa" aria-selected="false">Lupa</button>
+</nav>
+
+<main>
+  <!-- ESCONDER -->
+  <section class="painel" id="p-esconder" role="tabpanel" aria-labelledby="t-esconder">
+    <div class="cartao">
+      <label class="zona" id="zona-capa">
+        <input type="file" accept="image/*" id="capa">
+        <span class="dica">Adicione aqui a imagem de capa ou toque para escolher</span>
+        <img alt="Imagem de capa escolhida" hidden>
+      </label>
+
+      <label class="campo" for="msg">Mensagem secreta</label>
+      <textarea id="msg" placeholder="Escreva o que ninguém mais deve ler"></textarea>
+
+      <label class="campo" for="senha-esconder">Chave (opcional, mas recomendada)</label>
+      <input type="password" id="senha-esconder" autocomplete="off">
+
+      <div class="barra" id="barra"><i></i></div>
+      <p class="nota" id="uso">Escolha uma imagem para ver quanto cabe.</p>
+
+      <button class="botao" id="btn-esconder" disabled>Esconder mensagem</button>
+      <p class="nota">Guarde o resultado como PNG..</p>
+    </div>
+
+    <div class="cartao">
+      <p class="vazio" id="res-vazio">A imagem com o segredo aparece aqui, ao lado da original.</p>
+      <div id="res" hidden>
+        <div class="comparador" id="comparador">
+          <img id="img-depois" alt="Imagem com a mensagem escondida">
+          <img id="img-antes" class="topo" alt="Imagem original">
+        </div>
+        <input type="range" id="cursor" min="0" max="100" value="50" aria-label="Comparar original e imagem com segredo">
+        <p class="nota">À esquerda a original, à direita a que guarda o segredo. Não dá para notar a diferença.</p>
+        <a class="botao" id="baixar" download="segredo.png">Descarregar PNG</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVELAR -->
+  <section class="painel" id="p-revelar" role="tabpanel" aria-labelledby="t-revelar" hidden>
+    <div class="cartao">
+      <label class="zona" id="zona-sel">
+        <input type="file" accept="image/*" id="sel">
+        <span class="dica">Adicione aqui a imagem que guarda o segredo</span>
+        <img alt="Imagem escolhida" hidden>
+      </label>
+      <label class="campo" for="senha-rev">Chave</label>
+      <input type="password" id="senha-rev" autocomplete="off">
+      <button class="botao" id="btn-rev" disabled>Revelar mensagem</button>
+    </div>
+    <div class="cartao">
+      <div class="carta" id="carta" aria-live="polite">A mensagem aparece aqui.</div>
+    </div>
+  </section>
+
+  <!-- LUPA -->
+  <section class="painel" id="p-lupa" role="tabpanel" aria-labelledby="t-lupa" hidden>
+    <div class="cartao">
+      <label class="zona" id="zona-lupa">
+        <input type="file" accept="image/*" id="lupa">
+        <span class="dica">Largue aqui qualquer imagem para inspeccionar</span>
+        <img alt="Imagem escolhida" hidden>
+      </label>
+      <p class="nota">A lupa amplifica o bit menos significativo de cada pixel. Numa foto normal vê-se ruído sem forma; numa imagem com mensagem, as primeiras linhas ficam estranhamente regulares.</p>
+      <button class="botao" id="btn-lupa" disabled>Ver os bits escondidos</button>
+    </div>
+    <div class="cartao">
+      <p class="vazio" id="lupa-vazio">O mapa de bits aparece aqui.</p>
+      <img id="lupa-img" alt="Mapa dos bits menos significativos" hidden>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">Não existe sistema completamente seguro, existem sistemas cujas vulnerabilidades ainda não foram descobertas.</footer>
+<div class="aviso" id="aviso" role="status" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
