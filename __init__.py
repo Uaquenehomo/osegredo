@@ -1,1 +1,0 @@
-# Torna a pasta stego/ um pacote Python (pode ficar só com este comentário).
